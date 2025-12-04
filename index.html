@@ -17,7 +17,8 @@
             align-items: center;
             min-height: 100vh;
             text-align: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
         }
 
@@ -46,7 +47,8 @@
         /* BURSDAGSINNHOLD (skjult til riktig passord) */
         #content {
             display: none;
-            padding-top: 60px;
+            padding-top: 140px;
+            padding-bottom: 60px;
             z-index: 2;
         }
 
@@ -68,6 +70,15 @@
             font-size: 1.1rem;
             line-height: 1.7;
             white-space: pre-line;
+        }
+
+        .month-header {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: #ffe66d;
         }
 
         /* BALLONGER */
@@ -291,22 +302,17 @@
 
             items.sort((a, b) => a.diff - b.diff);
 
-            let lines = [];
+            let html = "";
             let currentMonth = null;
-            items.forEach((i, index) => {
+            items.forEach((i) => {
                 if (i.month !== currentMonth) {
-                    if (index !== 0) {
-                        lines.push("");
-                    }
                     currentMonth = i.month;
+                    html += '<div class="month-header">' + monthNames[i.month].toUpperCase() + '</div>';
                 }
-                lines.push(
-                    "  " + i.name + ": blir " + i.age + " år " + i.dateStr +
-                    " om " + i.countdownStr
-                );
+                html += '<div>' + i.name + ': blir ' + i.age + ' år ' + i.dateStr + ' om ' + i.countdownStr + '</div>';
             });
 
-            document.getElementById("birthdays").textContent = lines.join("\n");
+            document.getElementById("birthdays").innerHTML = html;
         }
 
         function tick() {
