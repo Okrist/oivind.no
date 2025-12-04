@@ -1,57 +1,13 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <title>oivind.no</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    #content { display: none; }
-    #login { max-width: 300px; margin: 50px auto; text-align: center; }
-    input { padding: 8px; margin: 5px 0; width: 100%; }
-    button { padding: 8px 12px; width: 100%; }
-  </style>
-</head>
-<body>
-  <div id="login">
-    <h1>Velkommen</h1>
-    <p>Skriv passord for å se siden.</p>
-    <input type="password" id="passwordInput" placeholder="Passord" />
-    <button onclick="checkPassword()">Logg inn</button>
-    <p id="error" style="color:red; display:none;">Feil passord</p>
-  </div>
-
-  <div id="content">
-    <!-- HER legger du bursdagssiden din -->
-    <h1>Bursdagsside</h1>
-    <p>Innholdet ditt her…</p>
-  </div>
-
-  <script>
-    const CORRECT_PASSWORD = "220344"; // BYTT PASSORD HER
-
-    function checkPassword() {
-      const input = document.getElementById("passwordInput").value;
-      const error = document.getElementById("error");
-      if (input === CORRECT_PASSWORD) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("content").style.display = "block";
-      } else {
-        error.style.display = "block";
-      }
-    }
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="no">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>oivind.no</title>
     <style>
         body {
             margin: 0;
-            padding: 80px 20px 20px 20px;
+            padding: 20px;
             background-color: #000;
             color: #fff;
             font-family: "Courier New", monospace;
@@ -65,31 +21,56 @@
             position: relative;
         }
 
+        /* PASSORD-BOKS */
+        #login {
+            max-width: 300px;
+            margin: 50px auto;
+            text-align: center;
+            z-index: 10;
+        }
+        #login input {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #login button {
+            padding: 8px 12px;
+            width: 100%;
+        }
+        #error {
+            color: red;
+            display: none;
+        }
+
+        /* BURSDAGSINNHOLD (skjult til riktig passord) */
+        #content {
+            display: none;
+            padding-top: 60px;
+            z-index: 2;
+        }
+
         #date {
             font-size: 2rem;
             margin-bottom: 20px;
-            z-index: 2;
         }
         #clock {
             font-size: 4rem;
             margin-bottom: 60px;
-            z-index: 2;
         }
         #birthdays-title {
             font-size: 1.6rem;
             margin-bottom: 10px;
             margin-top: 10px;
             text-decoration: underline;
-            z-index: 2;
         }
         #birthdays {
             font-size: 1.1rem;
             line-height: 1.7;
             white-space: pre-line;
-            z-index: 2;
         }
 
-        /* ENKLE, TYDELIGE LYSSTJERNER SOM FLYR OPP (fyrverkeri-følelse) */
+        /* STJERNER */
         .star {
             position: absolute;
             bottom: -40px;
@@ -142,14 +123,39 @@
     <div class="star s7"></div>
     <div class="star s8"></div>
 
-    <!-- Innhold -->
-    <div id="date"></div>
-    <div id="clock"></div>
+    <!-- PASSORD-SKJERM -->
+    <div id="login">
+        <h1>Velkommen</h1>
+        <p>Skriv passord for å se siden.</p>
+        <input type="password" id="passwordInput" placeholder="Passord" />
+        <button onclick="checkPassword()">Logg inn</button>
+        <p id="error">Feil passord</p>
+    </div>
 
-    <div id="birthdays-title">Bursdagsnedtelling</div>
-    <div id="birthdays"></div>
+    <!-- BURSDAGSINNHOLD (vises etter riktig passord) -->
+    <div id="content">
+        <div id="date"></div>
+        <div id="clock"></div>
+
+        <div id="birthdays-title">Bursdagsnedtelling</div>
+        <div id="birthdays"></div>
+    </div>
 
     <script>
+        const CORRECT_PASSWORD = "220344"; // <-- BYTT PASSORD HER
+
+        function checkPassword() {
+            const input = document.getElementById("passwordInput").value;
+            const error = document.getElementById("error");
+            if (input === CORRECT_PASSWORD) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            } else {
+                error.style.display = "block";
+            }
+        }
+
+        // KLOKKE OG DATO
         function updateDateTime() {
             const now = new Date();
             const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
@@ -163,6 +169,7 @@
             document.getElementById("clock").textContent = h + ":" + m + ":" + s;
         }
 
+        // BURSDAGER
         const birthdays = [
             { name: "Hanne",              month: 1,  day: 5,  year: 1976 },
             { name: "Anne Kristine",      month: 1,  day: 29, year: 1987 },
