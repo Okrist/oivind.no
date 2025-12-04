@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oivind.no</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 80px 20px 20px 20px;
+            background-color: #000;
+            color: #fff;
+            font-family: "Courier New", monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #date {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+        #clock {
+            font-size: 4rem;
+            margin-bottom: 60px;
+            z-index: 2;
+        }
+        #birthdays-title {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            text-decoration: underline;
+            z-index: 2;
+        }
+        #birthdays {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            white-space: pre-line;
+            z-index: 2;
+        }
+
+        /* ENKLE, TYDELIGE LYSSTJERNER SOM FLYR OPP (fyrverkeri-følelse) */
+        .star {
+            position: absolute;
+            bottom: -40px;
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, #ffffff 0%, #ffe080 60%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 0;
+            animation: rise 6s linear infinite;
+        }
+
+        .s1 { left: 10%; animation-delay: 0s; }
+        .s2 { left: 25%; animation-delay: 1s; }
+        .s3 { left: 40%; animation-delay: 2s; }
+        .s4 { left: 55%; animation-delay: 3s; }
+        .s5 { left: 70%; animation-delay: 4s; }
+        .s6 { left: 85%; animation-delay: 5s; }
+        .s7 { left: 18%; animation-delay: 2.5s; }
+        .s8 { left: 62%; animation-delay: 0.5s; }
+
+        @keyframes rise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(40px) scale(1);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(280px) scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(380px) scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Lys-stjerner i bakgrunnen -->
+    <div class="star s1"></div>
+    <div class="star s2"></div>
+    <div class="star s3"></div>
+    <div class="star s4"></div>
+    <div class="star s5"></div>
+    <div class="star s6"></div>
+    <div class="star s7"></div>
+    <div class="star s8"></div>
+
+    <!-- Innhold -->
+    <div id="date"></div>
+    <div id="clock"></div>
+
+    <div id="birthdays-title">Bursdagsnedtelling</div>
+    <div id="birthdays"></div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+            const dateStr = now.toLocaleDateString("nb-NO", options);
+            document.getElementById("date").textContent =
+                dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
+            const h = String(now.getHours()).padStart(2, "0");
+            const m = String(now.getMinutes()).padStart(2, "0");
+            const s = String(now.getSeconds()).padStart(2, "0");
+            document.getElementById("clock").textContent = h + ":" + m + ":" + s;
+        }
+
+        const birthdays = [
+            { name: "Hanne",              month: 1,  day: 5,  year: 1976 },
+            { name: "Anne Kristine",      month: 1,  day: 29, year: 1987 },
+            { name: "Helene",             month: 2,  day: 3,  year: 2010 },
+            { name: "Bernhardt Marensius",month: 2,  day: 5,  year: 2016 },
+            { name: "Lise",               month: 2,  day: 26, year: 1990 },
+            { name: "Wilmer Johannes",    month: 3,  day: 19, year: 2021 },
+            { name: "Mamma/farmor",       month: 3,  day: 22, year: 1944 },
+            { name: "Øivind",             month: 4,  day: 24, year: 1980 },
+            { name: "Martin",             month: 7,  day: 8,  year: 1981 },
+            { name: "Johannes",           month: 7,  day: 25, year: 2008 },
+            { name: "Elise",              month: 8,  day: 24, year: 2014 },
+            { name: "Mathias",            month: 9,  day: 25, year: 2012 },
+            { name: "Lorents Cornelius",  month: 10, day: 4,  year: 2018 },
+            { name: "Gunnar",             month: 10, day: 30, year: 1978 }
+        ];
+
+        const monthNames = [
+            "", "januar", "februar", "mars", "april", "mai", "juni",
+            "juli", "august", "september", "oktober", "november", "desember"
+        ];
+
+        function getNextBirthday(now, month, day) {
+            const currentYear = now.getFullYear();
+            let next = new Date(currentYear, month - 1, day, 0, 0, 0);
+            if (next < now) {
+                next = new Date(currentYear + 1, month - 1, day, 0, 0, 0);
+            }
+            return next;
+        }
+
+        function formatCountdown(diff) {
+            if (diff <= 0) return "0 dg 00:00:00";
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            diff -= days * 1000 * 60 * 60 * 24;
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            diff -= hours * 1000 * 60 * 60;
+
+            const minutes = Math.floor(diff / (1000 * 60));
+            diff -= minutes * 1000 * 60;
+
+            const seconds = Math.floor(diff / 1000);
+
+            return days + " dg " +
+                String(hours).padStart(2, "0") + ":" +
+                String(minutes).padStart(2, "0") + ":" +
+                String(seconds).padStart(2, "0");
+        }
+
+        function updateBirthdays() {
+            const now = new Date();
+
+            const items = birthdays.map(b => {
+                const next = getNextBirthday(now, b.month, b.day);
+                const diff = next - now;
+                const age = next.getFullYear() - b.year;
+                const countdownStr = formatCountdown(diff);
+                const dateStr = b.day + ". " + monthNames[b.month] + " " + next.getFullYear();
+                return { ...b, next, diff, age, countdownStr, dateStr };
+            });
+
+            items.sort((a, b) => a.diff - b.diff);
+
+            let lines = [];
+            let currentMonth = null;
+            items.forEach((i, index) => {
+                if (i.month !== currentMonth) {
+                    if (index !== 0) {
+                        lines.push("");
+                    }
+                    currentMonth = i.month;
+                }
+                lines.push(
+                    "  " + i.name + ": blir " + i.age + " år " + i.dateStr +
+                    " om " + i.countdownStr
+                );
+            });
+
+            document.getElementById("birthdays").textContent = lines.join("\n");
+        }
+
+        function tick() {
+            updateDateTime();
+            updateBirthdays();
+        }
+
+        tick();
+        setInterval(tick, 1000);
+    </script>
+</body>
+</html>
