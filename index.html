@@ -24,7 +24,7 @@
         /* PASSORD-BOKS */
         #login {
             max-width: 300px;
-            margin: 50px auto;
+            margin: 150px auto;
             text-align: center;
             z-index: 10;
         }
@@ -68,6 +68,50 @@
             font-size: 1.1rem;
             line-height: 1.7;
             white-space: pre-line;
+        }
+
+        /* BALLONGER */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 60px;
+            height: 80px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.85;
+            z-index: 1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .b1 { left: 10%; background: #ff6b6b; animation-delay: 0s; }
+        .b2 { left: 25%; background: #4ecdc4; animation-delay: 1.5s; }
+        .b3 { left: 40%; background: #ffe66d; animation-delay: 3s; }
+        .b4 { left: 55%; background: #a8e6cf; animation-delay: 4.5s; }
+        .b5 { left: 70%; background: #ff8b94; animation-delay: 6s; }
+        .b6 { left: 85%; background: #c7ceea; animation-delay: 7.5s; }
+
+        @keyframes float {
+            0% {
+                bottom: -150px;
+                opacity: 0.85;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                bottom: 110vh;
+                opacity: 0;
+            }
         }
 
         /* STJERNER */
@@ -123,9 +167,16 @@
     <div class="star s7"></div>
     <div class="star s8"></div>
 
+    <!-- Ballonger (vises etter innlogging) -->
+    <div class="balloon b1" id="balloon1"></div>
+    <div class="balloon b2" id="balloon2"></div>
+    <div class="balloon b3" id="balloon3"></div>
+    <div class="balloon b4" id="balloon4"></div>
+    <div class="balloon b5" id="balloon5"></div>
+    <div class="balloon b6" id="balloon6"></div>
+
     <!-- PASSORD-SKJERM -->
     <div id="login">
-        <h1>Velkommen</h1>
         <p>Skriv passord for å se siden.</p>
         <input type="password" id="passwordInput" placeholder="Passord" />
         <button onclick="checkPassword()">Logg inn</button>
@@ -142,7 +193,10 @@
     </div>
 
     <script>
-        const CORRECT_PASSWORD = "220344"; // <-- BYTT PASSORD HER
+        const CORRECT_PASSWORD = "220344";
+
+        // Skjul ballonger til etter innlogging
+        document.querySelectorAll('.balloon').forEach(b => b.style.display = 'none');
 
         function checkPassword() {
             const input = document.getElementById("passwordInput").value;
@@ -150,6 +204,8 @@
             if (input === CORRECT_PASSWORD) {
                 document.getElementById("login").style.display = "none";
                 document.getElementById("content").style.display = "block";
+                // Vis ballonger
+                document.querySelectorAll('.balloon').forEach(b => b.style.display = 'block');
             } else {
                 error.style.display = "block";
             }
