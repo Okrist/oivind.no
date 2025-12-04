@@ -68,8 +68,14 @@
         }
         #birthdays {
             font-size: 1.1rem;
-            line-height: 1.7;
+            line-height: 1.5; /* Justert linjehøyde for bedre lesbarhet på mobil */
             white-space: pre-line;
+        }
+        #birthdays div {
+            margin-bottom: 5px; /* Litt mer avstand mellom hver bursdagsoppføring */
+        }
+        #birthdays strong {
+            font-weight: bold; /* Gjør navnene fete */
         }
 
         .month-header {
@@ -309,7 +315,7 @@
                     currentMonth = i.month;
                     html += '<div class="month-header">' + monthNames[i.month].toUpperCase() + '</div>';
                 }
-                html += '<div>' + i.name + ': blir ' + i.age + ' år ' + i.dateStr + ' om ' + i.countdownStr + '</div>';
+                html += '<div><strong>' + i.name + '</strong>: blir ' + i.age + ' år ' + i.dateStr + ' om ' + i.countdownStr + '</div>';
             });
 
             document.getElementById("birthdays").innerHTML = html;
