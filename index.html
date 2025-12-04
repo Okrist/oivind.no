@@ -1,333 +1,101 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>oivind.no</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            background-color: #000;
-            color: #fff;
-            font-family: "Courier New", monospace;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            overflow-x: hidden;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        /* PASSORD-BOKS */
-        #login {
-            max-width: 300px;
-            margin: 150px auto;
-            text-align: center;
-            z-index: 10;
-        }
-        #login input {
-            padding: 8px;
-            margin: 5px 0;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        #login button {
-            padding: 8px 12px;
-            width: 100%;
-        }
-        #error {
-            color: red;
-            display: none;
-        }
-
-        /* BURSDAGSINNHOLD (skjult til riktig passord) */
-        #content {
-            display: none;
-            padding-top: 100px;
-            padding-bottom: 60px;
-            z-index: 2;
-        }
-
-        #date {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        #clock {
-            font-size: 4rem;
-            margin-bottom: 60px;
-        }
-        #birthdays-title {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-            margin-top: 10px;
-            text-decoration: underline;
-        }
-        #birthdays {
-            font-size: 1.1rem;
-            line-height: 1.5; /* Justert linjehøyde for bedre lesbarhet på mobil */
-            white-space: pre-line;
-        }
-        #birthdays div {
-            margin-bottom: 5px; /* Litt mer avstand mellom hver bursdagsoppføring */
-        }
-        #birthdays strong {
-            font-weight: bold; /* Gjør navnene fete */
-        }
-
-        .month-header {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-top: 30px;
-            margin-bottom: 0px;
-            text-transform: uppercase;
-            color: #ffe66d;
-        }
-
-        /* BALLONGER */
-        .balloon {
-            position: absolute;
-            bottom: -150px;
-            width: 60px;
-            height: 80px;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0.85;
-            z-index: 1;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .balloon::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .b1 { left: 10%; background: #ff6b6b; animation-delay: 0s; }
-        .b2 { left: 25%; background: #4ecdc4; animation-delay: 1.5s; }
-        .b3 { left: 40%; background: #ffe66d; animation-delay: 3s; }
-        .b4 { left: 55%; background: #a8e6cf; animation-delay: 4.5s; }
-        .b5 { left: 70%; background: #ff8b94; animation-delay: 6s; }
-        .b6 { left: 85%; background: #c7ceea; animation-delay: 7.5s; }
-
-        @keyframes float {
-            0% {
-                bottom: -150px;
-                opacity: 0.85;
-            }
-            50% {
-                opacity: 0.9;
-            }
-            100% {
-                bottom: 110vh;
-                opacity: 0;
-            }
-        }
-
-        /* STJERNER */
-        .star {
-            position: absolute;
-            bottom: -40px;
-            width: 14px;
-            height: 14px;
-            background: radial-gradient(circle, #ffffff 0%, #ffe080 60%, transparent 70%);
-            border-radius: 50%;
-            opacity: 0;
-            z-index: 0;
-            animation: rise 6s linear infinite;
-        }
-
-        .s1 { left: 10%; animation-delay: 0s; }
-        .s2 { left: 25%; animation-delay: 1s; }
-        .s3 { left: 40%; animation-delay: 2s; }
-        .s4 { left: 55%; animation-delay: 3s; }
-        .s5 { left: 70%; animation-delay: 4s; }
-        .s6 { left: 85%; animation-delay: 5s; }
-        .s7 { left: 18%; animation-delay: 2.5s; }
-        .s8 { left: 62%; animation-delay: 0.5s; }
-
-        @keyframes rise {
-            0% {
-                opacity: 0;
-                transform: translateY(0) scale(0.5);
-            }
-            10% {
-                opacity: 1;
-                transform: translateY(40px) scale(1);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(280px) scale(1.1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(380px) scale(0.8);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>oivind.no</title>
+<style>
+body{margin:0;padding:20px;background:#000;color:#fff;font-family:"Courier New",monospace;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;min-height:100vh;text-align:center;overflow-x:hidden;overflow-y:auto;position:relative}
+#login{max-width:300px;margin:150px auto;text-align:center;z-index:10}
+#login input{padding:8px;margin:5px 0;width:100%;box-sizing:border-box}
+#login button{padding:8px 12px;width:100%}
+#error{color:red;display:none}
+#content{display:none;padding-top:100px;padding-bottom:60px;z-index:2}
+#date{font-size:2rem;margin-bottom:20px}
+#clock{font-size:4rem;margin-bottom:60px}
+#birthdays-title{font-size:1.6rem;margin:10px 0;text-decoration:underline}
+#birthdays{font-size:1.1rem;line-height:1.5;white-space:pre-line}
+#birthdays div{margin-bottom:5px}
+.month-header{font-size:1.3rem;font-weight:bold;margin-top:30px;margin-bottom:0;text-transform:uppercase;color:#ffe66d}
+.balloon{position:absolute;bottom:-150px;width:60px;height:80px;border-radius:50%/60% 60% 40% 40%;opacity:.85;z-index:1;animation:float 8s ease-in-out infinite}
+.balloon::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:2px;height:60px;background:rgba(255,255,255,.4)}
+.b1{left:10%;background:#ff6b6b;animation-delay:0s}.b2{left:25%;background:#4ecdc4;animation-delay:1.5s}.b3{left:40%;background:#ffe66d;animation-delay:3s}.b4{left:55%;background:#a8e6cf;animation-delay:4.5s}.b5{left:70%;background:#ff8b94;animation-delay:6s}.b6{left:85%;background:#c7ceea;animation-delay:7.5s}
+@keyframes float{0%{bottom:-150px;opacity:.85}50%{opacity:.9}100%{bottom:110vh;opacity:0}}
+.star{position:absolute;bottom:-40px;width:14px;height:14px;background:radial-gradient(circle,#fff 0%,#ffe080 60%,transparent 70%);border-radius:50%;opacity:0;z-index:0;animation:rise 6s linear infinite}
+.s1{left:10%}.s2{left:25%}.s3{left:40%}.s4{left:55%}.s5{left:70%}.s6{left:85%}.s7{left:18%}.s8{left:62%}
+@keyframes rise{0%{opacity:0;transform:translateY(0) scale(.5)}10%{opacity:1;transform:translateY(40px) scale(1)}60%{opacity:1;transform:translateY(280px) scale(1.1)}100%{opacity:0;transform:translateY(380px) scale(.8)}
+</style>
 </head>
 <body>
-    <!-- Lys-stjerner i bakgrunnen -->
-    <div class="star s1"></div>
-    <div class="star s2"></div>
-    <div class="star s3"></div>
-    <div class="star s4"></div>
-    <div class="star s5"></div>
-    <div class="star s6"></div>
-    <div class="star s7"></div>
-    <div class="star s8"></div>
+<div class="star s1"></div><div class="star s2"></div><div class="star s3"></div><div class="star s4"></div><div class="star s5"></div><div class="star s6"></div><div class="star s7"></div><div class="star s8"></div>
+<div class="balloon b1"></div><div class="balloon b2"></div><div class="balloon b3"></div><div class="balloon b4"></div><div class="balloon b5"></div><div class="balloon b6"></div>
+<div id="login"><p>Skriv passord for å se siden.</p><input type="password" id="passwordInput" placeholder="Passord"><button onclick="checkPassword()">Logg inn</button><p id="error">Feil passord</p></div>
+<div id="content"><div id="date"></div><div id="clock"></div><div id="birthdays-title">Bursdagsnedtelling</div><div id="birthdays"></div></div>
 
-    <!-- Ballonger (vises etter innlogging) -->
-    <div class="balloon b1" id="balloon1"></div>
-    <div class="balloon b2" id="balloon2"></div>
-    <div class="balloon b3" id="balloon3"></div>
-    <div class="balloon b4" id="balloon4"></div>
-    <div class="balloon b5" id="balloon5"></div>
-    <div class="balloon b6" id="balloon6"></div>
+<script>
+/* SHA-256-hash av passordet "220344" */
+const PASSWORD_HASH="a719bc6453622e18b0ca5eb3c9aa14342b433d8738e54406bf4eeb68359e6ef3";
+document.querySelectorAll('.balloon').forEach(b=>b.style.display='none');
 
-    <!-- PASSORD-SKJERM -->
-    <div id="login">
-        <p>Skriv passord for å se siden.</p>
-        <input type="password" id="passwordInput" placeholder="Passord" />
-        <button onclick="checkPassword()">Logg inn</button>
-        <p id="error">Feil passord</p>
-    </div>
+async function checkPassword(){
+  const input=document.getElementById("passwordInput").value;
+  const hash=await sha256(input);
+  if(hash===PASSWORD_HASH){
+      document.getElementById("login").style.display="none";
+      document.getElementById("content").style.display="block";
+      document.querySelectorAll('.balloon').forEach(b=>b.style.display='block');
+  }else{
+      document.getElementById("error").style.display="block";
+  }
+}
 
-    <!-- BURSDAGSINNHOLD (vises etter riktig passord) -->
-    <div id="content">
-        <div id="date"></div>
-        <div id="clock"></div>
+/* SHA-256 helper */
+async function sha256(str){
+  const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
 
-        <div id="birthdays-title">Bursdagsnedtelling</div>
-        <div id="birthdays"></div>
-    </div>
+/* Klokke & dato */
+function updateDateTime(){
+  const now=new Date();
+  const opts={weekday:"long",year:"numeric",month:"long",day:"numeric"};
+  const d=now.toLocaleDateString("nb-NO",opts);
+  document.getElementById("date").textContent=d.charAt(0).toUpperCase()+d.slice(1);
+  const h=String(now.getHours()).padStart(2,"0");
+  const m=String(now.getMinutes()).padStart(2,"0");
+  const s=String(now.getSeconds()).padStart(2,"0");
+  document.getElementById("clock").textContent=`${h}:${m}:${s}`;
+}
 
-    <script>
-        const CORRECT_PASSWORD = "220344";
+/* Bursdager */
+const birthdays=[{name:"Hanne",month:1,day:5,year:1976},{name:"Anne Kristine",month:1,day:29,year:1987},{name:"Helene",month:2,day:3,year:2010},{name:"Bernhardt Marensius",month:2,day:5,year:2016},{name:"Lise",month:2,day:26,year:1990},{name:"Wilmer Johannes",month:3,day:19,year:2021},{name:"Mamma/farmor",month:3,day:22,year:1944},{name:"Øivind",month:4,day:24,year:1980},{name:"Martin",month:7,day:8,year:1981},{name:"Johannes",month:7,day:25,year:2008},{name:"Elise",month:8,day:24,year:2014},{name:"Mathias",month:9,day:25,year:2012},{name:"Lorents Cornelius",month:10,day:4,year:2018},{name:"Gunnar",month:10,day:30,year:1978}];
+const monthNames=["","januar","februar","mars","april","mai","juni","juli","august","september","oktober","november","desember"];
 
-        // Skjul ballonger til etter innlogging
-        document.querySelectorAll('.balloon').forEach(b => b.style.display = 'none');
+function getNextBirthday(now,m,d){
+  let n=new Date(now.getFullYear(),m-1,d);if(n<now)n.setFullYear(n.getFullYear()+1);return n;
+}
+function fmt(diff){
+  if(diff<=0)return"0 dg 00:00:00";
+  const ds=Math.floor(diff/864e5);diff-=ds*864e5;
+  const hs=Math.floor(diff/36e5);diff-=hs*36e5;
+  const ms=Math.floor(diff/6e4);diff-=ms*6e4;
+  const ss=Math.floor(diff/1e3);
+  return`${ds} dg ${String(hs).padStart(2,"0")}:${String(ms).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+}
+function updateBirthdays(){
+  const now=new Date();
+  const list=birthdays.map(b=>{const nxt=getNextBirthday(now,b.month,b.day);return{...b,next:nxt,diff:nxt-now,age:nxt.getFullYear()-b.year,dateStr:`${b.day}. ${monthNames[b.month]} ${nxt.getFullYear()}`}})
+              .sort((a,b)=>a.diff-b.diff);
+  let html="",cur=null;
+  list.forEach(i=>{
+    if(i.month!==cur){cur=i.month;html+=`<div class="month-header">${monthNames[i.month].toUpperCase()}</div>`;}
+    html+=`<div><strong>${i.name}</strong>: blir ${i.age} år ${i.dateStr} om ${fmt(i.diff)}</div>`;
+  });
+  document.getElementById("birthdays").innerHTML=html;
+}
 
-        function checkPassword() {
-            const input = document.getElementById("passwordInput").value;
-            const error = document.getElementById("error");
-            if (input === CORRECT_PASSWORD) {
-                document.getElementById("login").style.display = "none";
-                document.getElementById("content").style.display = "block";
-                // Vis ballonger
-                document.querySelectorAll('.balloon').forEach(b => b.style.display = 'block');
-            } else {
-                error.style.display = "block";
-            }
-        }
-
-        // KLOKKE OG DATO
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-            const dateStr = now.toLocaleDateString("nb-NO", options);
-            document.getElementById("date").textContent =
-                dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
-
-            const h = String(now.getHours()).padStart(2, "0");
-            const m = String(now.getMinutes()).padStart(2, "0");
-            const s = String(now.getSeconds()).padStart(2, "0");
-            document.getElementById("clock").textContent = h + ":" + m + ":" + s;
-        }
-
-        // BURSDAGER
-        const birthdays = [
-            { name: "Hanne",              month: 1,  day: 5,  year: 1976 },
-            { name: "Anne Kristine",      month: 1,  day: 29, year: 1987 },
-            { name: "Helene",             month: 2,  day: 3,  year: 2010 },
-            { name: "Bernhardt Marensius",month: 2,  day: 5,  year: 2016 },
-            { name: "Lise",               month: 2,  day: 26, year: 1990 },
-            { name: "Wilmer Johannes",    month: 3,  day: 19, year: 2021 },
-            { name: "Mamma/farmor",       month: 3,  day: 22, year: 1944 },
-            { name: "Øivind",             month: 4,  day: 24, year: 1980 },
-            { name: "Martin",             month: 7,  day: 8,  year: 1981 },
-            { name: "Johannes",           month: 7,  day: 25, year: 2008 },
-            { name: "Elise",              month: 8,  day: 24, year: 2014 },
-            { name: "Mathias",            month: 9,  day: 25, year: 2012 },
-            { name: "Lorents Cornelius",  month: 10, day: 4,  year: 2018 },
-            { name: "Gunnar",             month: 10, day: 30, year: 1978 }
-        ];
-
-        const monthNames = [
-            "", "januar", "februar", "mars", "april", "mai", "juni",
-            "juli", "august", "september", "oktober", "november", "desember"
-        ];
-
-        function getNextBirthday(now, month, day) {
-            const currentYear = now.getFullYear();
-            let next = new Date(currentYear, month - 1, day, 0, 0, 0);
-            if (next < now) {
-                next = new Date(currentYear + 1, month - 1, day, 0, 0, 0);
-            }
-            return next;
-        }
-
-        function formatCountdown(diff) {
-            if (diff <= 0) return "0 dg 00:00:00";
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            diff -= days * 1000 * 60 * 60 * 24;
-
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            diff -= hours * 1000 * 60 * 60;
-
-            const minutes = Math.floor(diff / (1000 * 60));
-            diff -= minutes * 1000 * 60;
-
-            const seconds = Math.floor(diff / 1000);
-
-            return days + " dg " +
-                String(hours).padStart(2, "0") + ":" +
-                String(minutes).padStart(2, "0") + ":" +
-                String(seconds).padStart(2, "0");
-        }
-
-        function updateBirthdays() {
-            const now = new Date();
-
-            const items = birthdays.map(b => {
-                const next = getNextBirthday(now, b.month, b.day);
-                const diff = next - now;
-                const age = next.getFullYear() - b.year;
-                const countdownStr = formatCountdown(diff);
-                const dateStr = b.day + ". " + monthNames[b.month] + " " + next.getFullYear();
-                return { ...b, next, diff, age, countdownStr, dateStr };
-            });
-
-            items.sort((a, b) => a.diff - b.diff);
-
-            let html = "";
-            let currentMonth = null;
-            items.forEach((i) => {
-                if (i.month !== currentMonth) {
-                    currentMonth = i.month;
-                    html += '<div class="month-header">' + monthNames[i.month].toUpperCase() + '</div>';
-                }
-                html += '<div><strong>' + i.name + '</strong>: blir ' + i.age + ' år ' + i.dateStr + ' om ' + i.countdownStr + '</div>';
-            });
-
-            document.getElementById("birthdays").innerHTML = html;
-        }
-
-        function tick() {
-            updateDateTime();
-            updateBirthdays();
-        }
-
-        tick();
-        setInterval(tick, 1000);
-    </script>
+function tick(){updateDateTime();updateBirthdays();}
+tick();setInterval(tick,1000);
+</script>
 </body>
 </html>
